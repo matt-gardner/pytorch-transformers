@@ -147,8 +147,26 @@ class PreTrainedTokenizer(object):
 
 
     @classmethod
-    def from_pretrained(cls, *inputs, **kwargs):
-        return cls._from_pretrained(*inputs, **kwargs)
+    def from_pretrained(cls, pretrained_model_name_or_path, *inputs, **kwargs):
+        if 'bert' in pretrained_model_name_or_path:
+            from .tokenization_bert import BertTokenizer
+            return BertTokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        elif 'gpt2' in pretrained_model_name_or_path:
+            from .tokenization_gpt2 import GPT2Tokenizer
+            return GPT2Tokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        elif 'gpt' in pretrained_model_name_or_path:
+            from .tokenization_openai import OpenAIGPTTokenizer
+            return OpenAIGPTTokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        elif 'transfo' in pretrained_model_name_or_path:
+            from .tokenization_transfo_xl import TransfoXLTokenizer
+            return TransfoXLTokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        elif 'xlnet' in pretrained_model_name_or_path:
+            from .tokenization_xlnet import XLNetTokenizer
+            return XLNetTokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        elif 'xlm' in pretrained_model_name_or_path:
+            from .tokenization_xlm import XLMTokenizer
+            return XLMTokenizer._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+        return cls._from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
 
 
     @classmethod

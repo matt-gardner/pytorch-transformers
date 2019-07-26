@@ -335,6 +335,29 @@ class PreTrainedModel(nn.Module):
         torch.save(model_to_save.state_dict(), output_model_file)
 
     @classmethod
+    def from_detected_pretrained(self, model_name, *model_args, **kwargs):
+        if 'bert' in model_name:
+            from .modeling_bert import BertModel
+            return BertModel.from_pretrained(model_name, *model_args, **kwargs)
+        elif 'gpt2' in model_name:
+            from .modeling_gpt2 import GPT2Model
+            return GPT2Model.from_pretrained(model_name, *model_args, **kwargs)
+        elif 'gpt' in model_name:
+            from .modeling_openai import OpenAIGPTModel
+            return OpenAIGPTModel.from_pretrained(model_name, *model_args, **kwargs)
+        elif 'transfo' in model_name:
+            from .modeling_transfo_xl import TransfoXLModel
+            return TransfoXLModel.from_pretrained(model_name, *model_args, **kwargs)
+        elif 'xlnet' in model_name:
+            from .modeling_xlnet import XLNetModel
+            return XLNetModel.from_pretrained(model_name, *model_args, **kwargs)
+        elif 'xlm' in model_name:
+            from .modeling_xlm import XLMModel
+            return XLMModel.from_pretrained(model_name, *model_args, **kwargs)
+        raise ValueError(f"Unrecognized model name: {model_name}")
+
+
+    @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path, *model_args, **kwargs):
         r"""Instantiate a pretrained pytorch model from a pre-trained model configuration.
 

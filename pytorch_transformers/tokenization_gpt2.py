@@ -107,6 +107,7 @@ class GPT2Tokenizer(PreTrainedTokenizer):
         super(GPT2Tokenizer, self).__init__(bos_token=bos_token, eos_token=eos_token, **kwargs)
 
         self.encoder = json.load(open(vocab_file))
+        self.vocab = self.encoder
         self.decoder = {v:k for k,v in self.encoder.items()}
         self.errors = errors # how to handle errors in decoding
         self.byte_encoder = bytes_to_unicode()
